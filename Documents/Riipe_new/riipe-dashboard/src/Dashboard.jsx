@@ -490,6 +490,8 @@ function NewProjectPage({ onNavigate, availableForms = [] }) {
     "f-primaryUse": "Data Center",
     "f-description": "A hyperscale data center located in New York City, offering colocation and cloud infrastructure services.",
     "f-yearBuilt": "2019",
+    "f-address": "123 Main Street",
+    "f-zip": "10001",
     "f-city": "New York",
     "f-state": "NY",
     "f-country": "United States",
@@ -545,6 +547,7 @@ function NewProjectPage({ onNavigate, availableForms = [] }) {
     projectName: fv("f-projectName"), sector: fv("f-sector"), primaryUse: fv("f-primaryUse"),
     description: fv("f-description"), yearBuilt: fv("f-yearBuilt"),
     city: fv("f-city"), state: fv("f-state"), country: fv("f-country"),
+    address: fv("f-address"), zip: fv("f-zip"),
     jurisdiction: fv("f-jurisdiction"), investorType: fv("f-investorType"),
     assetValue: fv("f-assetValue"), debt: fv("f-debt"), grossIncome: fv("f-grossIncome"),
     opex: fv("f-opex"), occupancy: fv("f-occupancy"), size: fv("f-size"),
@@ -709,6 +712,10 @@ Respond with a structured analysis using EXACT section headers below:
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 16, marginBottom: 20 }}>
             <div style={fieldStyle}><label style={labelStyle}>ASSET DESCRIPTION</label><textarea className="field-textarea-el" placeholder="Brief description of the asset, its history, and strategic value proposition..." onChange={e => formRef.current["f-description"] = e.target.value} defaultValue={formRef.current["f-description"]||""} /></div>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 140px", gap: 16, alignItems: "start", marginBottom: 16 }}>
+            <div style={fieldStyle}><label style={labelStyle}>STREET ADDRESS <span style={{ color: T.accent }}>*</span></label><FieldInput formRef={formRef} id="f-address" placeholder="e.g. 123 Main Street, Suite 400" /></div>
+            <div style={fieldStyle}><label style={labelStyle}>ZIP / POSTAL CODE <span style={{ color: T.accent }}>*</span></label><FieldInput formRef={formRef} id="f-zip" placeholder="10001" maxLength={12} /></div>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16 }}>
             <div style={fieldStyle}><label style={labelStyle}>CITY</label><FieldInput formRef={formRef} id="f-city" placeholder="New York" /></div>
@@ -885,7 +892,7 @@ Respond with a structured analysis using EXACT section headers below:
           <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 12, color: T.textFaint, marginBottom: 24, lineHeight: 1.7 }}>Review all details before submission. Your compliance officer will guide you through next steps.</div>
 
           {[
-            { header: "ASSET IDENTITY", editStep: 1, rows: [["Project Name",fv("f-projectName")||"—"],["Asset Type",assetTypes[assetType]?.label||"—"],["Sector",fv("f-sector")||"—"],["Primary Use",fv("f-primaryUse")||"—"],["Location",[fv("f-city"),fv("f-state"),fv("f-country")].filter(Boolean).join(", ")||"—"],["Year Established",fv("f-yearBuilt")||"—"]] },
+            { header: "ASSET IDENTITY", editStep: 1, rows: [["Project Name",fv("f-projectName")||"—"],["Asset Type",assetTypes[assetType]?.label||"—"],["Sector",fv("f-sector")||"—"],["Primary Use",fv("f-primaryUse")||"—"],["Street Address",fv("f-address")||"—"],["ZIP / Postal Code",fv("f-zip")||"—"],["Location",[fv("f-city"),fv("f-state"),fv("f-country")].filter(Boolean).join(", ")||"—"],["Year Established",fv("f-yearBuilt")||"—"]] },
             { header: "FINANCIAL PROFILE", editStep: 2, rows: [["Estimated Value",fv("f-assetValue") ? "$"+Number(fv("f-assetValue")).toLocaleString() : "—"],["Outstanding Debt",fv("f-debt") ? "$"+Number(fv("f-debt")).toLocaleString() : "—"],["NAV",fv("f-assetValue") ? "$"+((Number(fv("f-assetValue"))||0)-(Number(fv("f-debt"))||0)).toLocaleString() : "—"],["Occupancy",fv("f-occupancy") ? fv("f-occupancy")+"%" : "—"],["Jurisdiction",fv("f-jurisdiction")||"—"]] },
             { header: "TOKEN STRUCTURE", editStep: 3, rows: [["Ticker",tpTicker||"—"],["Standard",tpStandard],["Total Supply",tpSupply ? Number(tpSupply).toLocaleString()+" tokens" : "—"],["Blockchain",fv("f-blockchain")||"Ethereum"],["Investor Rights",fv("f-rights")||"—"],["Lock-up",fv("f-lockup")||"—"],["KYC/AML",fv("f-kyc")||"—"]] },
             { header: "LEGAL DOCUMENTS", editStep: 4, rows: [["Documents Checked",uploadedDocs.size+" of "+docCards.length],["Required Docs",docCards.filter(d=>d.tags.includes("REQUIRED") && uploadedDocs.has(d.id)).length+" / "+docCards.filter(d=>d.tags.includes("REQUIRED")).length+" required"]] },
