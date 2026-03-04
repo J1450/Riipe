@@ -1161,7 +1161,7 @@ export default function WhelLanding() {
               <p style={{ fontSize: "14px", color: PRIMARY, opacity: 0.5, lineHeight: 1.6, marginBottom: "24px" }}>
                 If you have any questions, just book a 15-minute call with us before subscribing
               </p>
-              <button onClick={scrollToContact} style={{
+              <button onClick={() => window.open('https://calendly.com/team-riipe/30min', '_blank')} style={{
                 width: "40%",
                 background: PRIMARY,
                 color: "white",
